@@ -42,4 +42,43 @@ router.route('/')
 
     })
 
+router.route('/:id')
+    .get(async (req: Request, res: Response) => {
+        const { id } = req.params
+        try {
+            // console.log(id)
+            const expenseDetail = await axios.get(`http://localhost:3001/expenses/${id}`)
+            res.status(200).send({
+                "messages": "ok",
+                "data": expenseDetail.data
+            })
+        } catch (err: any) {
+            res.send({
+                "messages": "failed",
+                "details": JSON.stringify(err?.message)
+            })
+        }
+    })
+    .put(jsonParser, async (req: Request, res: Response) => {
+        const { id } = req.params
+        const { name, nominal, category } = req.body
+
+        try {
+            const updateExpense = await axios.put(`http://localhost:3001/expenses/${id}`, {
+                name: name,
+                nominal: nominal,
+                category: category
+            })
+            res.status(200).send({
+                "messages": "ok",
+                "data": updateExpense.data
+            })
+        } catch (err: any) {
+            res.send({
+                "messages": "failed",
+                "details": JSON.stringify(err?.message)
+            })
+        }
+    })
+
 export default router
