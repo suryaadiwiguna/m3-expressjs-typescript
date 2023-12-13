@@ -4,7 +4,7 @@ import expenseRouter from "./router/expenseRouter"
 const PORT: number = 3002
 const app = express()
 
-app.use('/expense', expenseRouter)
+app.use('/expenses', expenseRouter)
 app.get('/', (req: Request, res: Response) => {
     res.send("Hi, there!")
 })

@@ -15,9 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const router = express_1.default.Router();
-router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.route('/')
+    .get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const expense = yield axios_1.default.get('http://localhost:3001/expense');
+        const expense = yield axios_1.default.get('http://localhost:3001/expenses');
         res.status(200).send({
             "message": "All good!",
             data: expense.data
@@ -28,5 +29,11 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             "message": JSON.stringify(err)
         });
     }
+}))
+    .post((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // const{name, nominal, category} = req.body
+    res.send(req.body);
+    // const newExpense = await axios.post('http://localhost:3001/expenses', {
+    // })
 }));
 exports.default = router;

@@ -1,21 +1,45 @@
 import express, { Router, Request, Response } from 'express'
 import axios from 'axios'
+import bodyParser from 'body-parser'
 
 const router: Router = express.Router()
+const jsonParser = bodyParser.json()
 
-router.get('/', async (req, res) => {
+router.route('/')
+    .get(async (req: Request, res: Response) => {
+        try {
+            const expense = await axios.get('http://localhost:3001/expenses')
+            res.status(200).send({
+                "message": "ok",
+                data: expense.data
+            })
+        } catch (err) {
+            res.status(500).send({
+                "message": JSON.stringify(err)
+            })
+        }
+    })
+    .post(jsonParser, async (req: Request, res: Response) => {
 
-    try {
-        const expense = await axios.get('http://localhost:3001/expense')
-        res.status(200).send({
-            "message": "All good!",
-            data: expense.data
-        })
-    } catch (err) {
-        res.status(500).send({
-            "message": JSON.stringify(err)
-        })
-    }
-})
+        const { name, nominal, category } = req.body
+
+        try {
+            const newExpense = await axios.post('http://localhost:3001/expenses', {
+                name: name,
+                nominal: nominal,
+                category: category
+            })
+
+            res.status(200).send({
+                message: "OK",
+                data: newExpense.data
+            })
+
+        } catch (err) {
+            res.status(500).send(JSON.stringify(err))
+        }
+
+
+    })
 
 export default router

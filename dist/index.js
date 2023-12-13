@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const expenseRouter_1 = __importDefault(require("./router/expenseRouter"));
 const PORT = 3002;
 const app = (0, express_1.default)();
-app.use('/expense', expenseRouter_1.default);
+app.use('/expenses', expenseRouter_1.default);
 app.get('/', (req, res) => {
     res.send("Hi, there!");
 });
